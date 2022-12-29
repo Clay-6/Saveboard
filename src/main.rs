@@ -1,10 +1,12 @@
+mod cli;
+
 use std::path::PathBuf;
 
 use clap::Parser;
 use cli::Args;
 use color_eyre::{Report, Result};
 
-mod cli;
+use arboard::Clipboard;
 
 fn main() -> Result<()> {
     color_eyre::install()?;
@@ -16,7 +18,10 @@ fn main() -> Result<()> {
         default_dir()?
     };
 
-    println!("{}", output.display());
+    let mut clipboard = Clipboard::new()?;
+    let img = clipboard.get_image()?.to_owned_img();
+
+    println!("{img:?}");
 
     Ok(())
 }
