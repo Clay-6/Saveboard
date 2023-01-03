@@ -21,15 +21,13 @@ fn main() -> Result<()> {
     };
 
     let mut clipboard = Clipboard::new()?;
-    let screenshot = clipboard.get_image()?.to_owned_img();
+    let screenshot = clipboard.get_image()?;
 
-    let pxs = RgbaImage::from_raw(
+    if let Some(img) = RgbaImage::from_raw(
         screenshot.width.try_into()?,
         screenshot.height.try_into()?,
         screenshot.bytes.to_vec(),
-    );
-
-    if let Some(img) = pxs {
+    ) {
         img.save(output)?;
     }
 
