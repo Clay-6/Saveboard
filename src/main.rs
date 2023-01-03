@@ -20,13 +20,13 @@ fn main() -> Result<()> {
         default_dir()?
     };
 
-    let screenshot = Clipboard::new()?.get_image()?;
+    let img = Clipboard::new()?.get_image()?;
 
     image::save_buffer(
         output,
-        &screenshot.bytes,
-        screenshot.width.try_into()?,
-        screenshot.height.try_into()?,
+        &img.bytes,
+        img.width.try_into()?,
+        img.height.try_into()?,
         ColorType::Rgba8,
     )?;
 
