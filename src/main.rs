@@ -8,6 +8,8 @@ use color_eyre::{Report, Result};
 
 use arboard::Clipboard;
 
+use image::RgbaImage;
+
 fn main() -> Result<()> {
     color_eyre::install()?;
 
@@ -19,9 +21,17 @@ fn main() -> Result<()> {
     };
 
     let mut clipboard = Clipboard::new()?;
-    let img = clipboard.get_image()?.to_owned_img();
+    let screenshot = clipboard.get_image()?.to_owned_img();
 
-    println!("{img:?}");
+    let pxs = RgbaImage::from_raw(
+        screenshot.width.try_into()?,
+        screenshot.height.try_into()?,
+        screenshot.bytes.to_vec(),
+    );
+
+    if let Some(img) = pxs {
+        img.save(output)?;
+    }
 
     Ok(())
 }
