@@ -23,12 +23,17 @@ fn main() -> Result<()> {
     let img = Clipboard::new()?.get_image()?;
 
     image::save_buffer(
-        output,
+        &output,
         &img.bytes,
         img.width.try_into()?,
         img.height.try_into()?,
         ColorType::Rgba8,
     )?;
+
+    println!(
+        "Image saved as {}",
+        output.canonicalize()?.to_string_lossy()
+    );
 
     Ok(())
 }
