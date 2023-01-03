@@ -8,7 +8,7 @@ use color_eyre::{eyre::eyre, Result};
 
 use arboard::Clipboard;
 
-use image::RgbaImage;
+use image::ColorType;
 
 fn main() -> Result<()> {
     color_eyre::install()?;
@@ -22,13 +22,13 @@ fn main() -> Result<()> {
 
     let screenshot = Clipboard::new()?.get_image()?;
 
-    if let Some(img) = RgbaImage::from_raw(
+    image::save_buffer(
+        output,
+        &screenshot.bytes,
         screenshot.width.try_into()?,
         screenshot.height.try_into()?,
-        screenshot.bytes.to_vec(),
-    ) {
-        img.save(output)?;
-    }
+        ColorType::Rgba8,
+    )?;
 
     Ok(())
 }
