@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use clap::Parser;
 use cli::Args;
-use color_eyre::{Report, Result};
+use color_eyre::{eyre::eyre, Result};
 
 use arboard::Clipboard;
 
@@ -36,6 +36,6 @@ fn main() -> Result<()> {
 fn default_dir() -> Result<PathBuf> {
     match home::home_dir() {
         Some(dir) => Ok(dir.join("clipboard-img.png")),
-        None => Err(Report::msg("Failed to locate home directory")),
+        None => Err(eyre!("Failed to locate home directory")),
     }
 }
