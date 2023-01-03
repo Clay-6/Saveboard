@@ -20,8 +20,7 @@ fn main() -> Result<()> {
         default_dir()?
     };
 
-    let mut clipboard = Clipboard::new()?;
-    let screenshot = clipboard.get_image()?;
+    let screenshot = Clipboard::new()?.get_image()?;
 
     if let Some(img) = RgbaImage::from_raw(
         screenshot.width.try_into()?,
